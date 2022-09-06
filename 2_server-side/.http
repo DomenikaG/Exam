@@ -1,0 +1,44 @@
+### -- get users (all)
+GET http://localhost:5000/api/users
+
+### -- create a new user
+POST http://localhost:5000/api/users
+content-type: application/json
+
+{
+    "name": "Rose Thomas",
+    "email": "rose.thomas@email.com",
+    "date": "2022-09-06",
+    "time": "8:00:00"
+}
+
+# {
+#     "name": "Mary Jackson",
+#     "email": "mary.jackson@email.com",
+#     "date": "2022-09-07",
+#     "time": "8:30:00"
+# }
+
+# {
+#     "name": "Jacob Autumn",
+#     "email": "jacob.autumn@email.com",
+#     "date": "2022-09-06",
+#     "time": "9:00:00"
+# }
+
+### -- update an exhisting user
+PUT http://localhost:5000/api/users/63173fab73027903fe19c4b7
+content-type: application/json
+
+{
+    "name": "Mary Jackson",
+    "email": "mary.jackson@email.com",
+    "date": "2022-09-06",
+    "time": "20:30:00"
+}
+
+###-- delete a user
+DELETE http://localhost:5000/api/users/63173fab73027903fe19c4b7
+
+### -- get all users that have been registered on certain date
+GET http://localhost:5000/api/users/2022-09-06
