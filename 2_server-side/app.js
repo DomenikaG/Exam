@@ -17,7 +17,7 @@ app.use(cors());
 
 // Routes
 // -- get users (all)
-app.get("/api/users", async (_req, res) => {
+app.get("/api/bookings", async (_req, res) => {
   const users = await User.find();
 
   // --- checking if we can connect to database and get the list of users
@@ -30,7 +30,7 @@ app.get("/api/users", async (_req, res) => {
 });
 
 // -- create a new user
-app.post("/api/users", async (req, res) => {
+app.post("/api/bookings", async (req, res) => {
   const { name, email, date, time } = req.body;
 
   // --- checking if user model matches infmation received from req.body
@@ -46,7 +46,7 @@ app.post("/api/users", async (req, res) => {
 });
 
 // -- update an exhisting user
-app.put("/api/users/:id", async (req, res) => {
+app.put("/api/bookings/:id", async (req, res) => {
   const { id } = req.params;
 
   // --- checking if such user exhists
@@ -62,7 +62,7 @@ app.put("/api/users/:id", async (req, res) => {
 });
 
 // -- delete a user
-app.delete("/api/users/:id", async (req, res) => {
+app.delete("/api/bookings/:id", async (req, res) => {
   const { id } = req.params;
 
   const user = await User.findByIdAndDelete(id);
@@ -78,7 +78,7 @@ app.delete("/api/users/:id", async (req, res) => {
 });
 
 // -- get all users that have been registered on certain date
-app.get("/api/users/:date", async (req, res) => {
+app.get("/api/bookings/:date", async (req, res) => {
   const { date } = req.params;
 
   const users = await User.find({ date: date });
