@@ -3,7 +3,9 @@ import { StyledHeader } from "./Header.style";
 const Header = () => {
   return (
     <header>
-      <StyledHeader>Header</StyledHeader>
+      <StyledHeader>
+        <h1>Beauty Salon Admin Page</h1>
+      </StyledHeader>
     </header>
   );
 };
