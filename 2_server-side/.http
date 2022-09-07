@@ -1,8 +1,8 @@
 ### -- get users (all)
-GET http://localhost:5000/api/users
+GET http://localhost:5000/api/bookings
 
 ### -- create a new user
-POST http://localhost:5000/api/users
+POST http://localhost:5000/api/bookings
 content-type: application/json
 
 {
@@ -27,7 +27,7 @@ content-type: application/json
 # }
 
 ### -- update an exhisting user
-PUT http://localhost:5000/api/users/63173fab73027903fe19c4b7
+PUT http://localhost:5000/api/bookings/63173fab73027903fe19c4b7
 content-type: application/json
 
 {
@@ -38,7 +38,7 @@ content-type: application/json
 }
 
 ###-- delete a user
-DELETE http://localhost:5000/api/users/63173fab73027903fe19c4b7
+DELETE http://localhost:5000/api/bookings/63173fab73027903fe19c4b7
 
 ### -- get all users that have been registered on certain date
-GET http://localhost:5000/api/users/2022-09-06
+GET http://localhost:5000/api/bookings/2022-09-06
