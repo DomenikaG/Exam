@@ -1,11 +1,8 @@
 import styled from "styled-components";
 
 export const StyledButton = styled.input`
+  width: 100%;
   border: none;
-
-  background-color: #027aff;
-
-  color: #fff;
 
   border-radius: 12px;
   padding: 12px 48px;
@@ -19,7 +16,9 @@ export const StyledButton = styled.input`
   &:hover {
     cursor: pointer;
 
-    background-color: #e1eaf7;
+    background-color: #fff;
     color: #027aff;
+
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.08);
   }
 `;
