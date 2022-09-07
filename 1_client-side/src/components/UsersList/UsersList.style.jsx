@@ -22,6 +22,14 @@ export const StyledBookingsContainer = styled.div`
 
   display: flex;
   flex-direction: column;
+
+  .pagination {
+    margin-top: 24px;
+
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+  }
 `;
 
 export const StyledList = styled.ul`

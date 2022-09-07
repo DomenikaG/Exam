@@ -7,18 +7,30 @@ import {
   StyledClientWrapper,
   StyledList,
 } from "./UsersList.style";
+import usePagination from "../../hooks/usePagination";
+import Button from "../Button/Button";
 
 const UsersList = () => {
   // States
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  // -- Pagination
+  const [page, setPage] = useState(1);
+  const [amount] = useState(10);
+  const [pagesArray, setPagesArray] = useState(null);
+
+  if (data && !pagesArray) {
+    const pagesTotal = Math.round(data.length / amount);
+
+    setPagesArray(Array.from({ length: pagesTotal }, (_, i) => i + 1));
+  }
 
   // Side effects
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get("http://localhost:5000/api/bookings");
+        const { data } = await axios.get("http://localhost:5000/api/bookings/");
 
         setData(data);
         setIsLoading(false);
@@ -27,7 +39,11 @@ const UsersList = () => {
         setIsLoading(false);
       }
     })();
-  }, []);
+  }, [page]);
+
+  const bookings = usePagination(data, amount, page);
+
+  console.log(bookings);
 
   return (
     <>
@@ -38,7 +54,7 @@ const UsersList = () => {
           <p>Loading ...</p>
         ) : (
           <StyledBookingsContainer>
-            {data.map((user) => (
+            {bookings.map((user) => (
               <StyledClientWrapper key={user._id}>
                 <StyledList>
                   <li>
@@ -56,6 +72,24 @@ const UsersList = () => {
                 </div>
               </StyledClientWrapper>
             ))}
+
+            <div className="pagination">
+              {pagesArray &&
+                pagesArray.map((item) => (
+                  <div
+                    key={item}
+                    onClick={() => {
+                      setPage(item);
+                    }}
+                  >
+                    <Button
+                      type="button"
+                      style="secondary"
+                      value={item}
+                    ></Button>
+                  </div>
+                ))}
+            </div>
           </StyledBookingsContainer>
         )}
       </StyledSection>
