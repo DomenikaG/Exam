@@ -5,7 +5,7 @@ export const StyledButton = styled.input`
   border: none;
 
   border-radius: 12px;
-  padding: 12px 48px;
+  padding: 12px;
 
   font-size: 16px;
   line-height: 24px;
