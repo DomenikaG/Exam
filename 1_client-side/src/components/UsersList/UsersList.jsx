@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteClient } from "../../redux/actions/userActions";
 import axios from "axios";
 
 import {
@@ -14,17 +16,44 @@ const UsersList = () => {
   // States
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   // -- Pagination
   const [page, setPage] = useState(1);
   const [amount] = useState(10);
   const [pagesArray, setPagesArray] = useState(null);
 
+  // Logic
+  // -- Pagination
+  const bookings = usePagination(data, amount, page);
   if (data && !pagesArray) {
-    const pagesTotal = Math.round(data.length / amount);
+    const pagesTotal = Math.ceil(data.length / amount);
 
     setPagesArray(Array.from({ length: pagesTotal }, (_, i) => i + 1));
   }
+
+  // Redux
+  const {
+    loading,
+    client: clientData,
+    error,
+  } = useSelector((state) => state.deleting);
+
+  const dispatch = useDispatch();
+
+  // Custom functions
+  const handleDelete = (id, name, email, date, time) => {
+    if (name) {
+      dispatch(
+        deleteClient({
+          clientId: id,
+          name: name,
+          email: email,
+          date: date,
+          time: time,
+        })
+      );
+    }
+  };
 
   // Side effects
   useEffect(() => {
@@ -35,15 +64,11 @@ const UsersList = () => {
         setData(data);
         setIsLoading(false);
       } catch (error) {
-        setError(error.message);
+        setErrorMessage(error.message);
         setIsLoading(false);
       }
     })();
-  }, [page]);
-
-  const bookings = usePagination(data, amount, page);
-
-  console.log(bookings);
+  }, [page, data]);
 
   return (
     <>
@@ -54,6 +79,12 @@ const UsersList = () => {
           <p>Loading ...</p>
         ) : (
           <StyledBookingsContainer>
+            <div className="tableHeader">
+              <p>Name</p>
+              <p>Email</p>
+              <p>Date</p>
+              <p>Time</p>
+            </div>
             {bookings.map((user) => (
               <StyledClientWrapper key={user._id}>
                 <StyledList>
@@ -64,11 +95,25 @@ const UsersList = () => {
                   <li>{user.date}</li>
                   <li>{user.time}</li>
                 </StyledList>
-                <div>
-                  <i className="fa-regular fa-pen-to-square"></i>
-                </div>
-                <div>
-                  <i className="fa-regular fa-trash-can"></i>
+
+                <div className="dataControlsContainer">
+                  <div className="dataControlButton edit">
+                    <i className="fa-regular fa-pen-to-square"></i>
+                  </div>
+                  <div
+                    className="dataControlButton delete"
+                    onClick={(e) => {
+                      handleDelete(
+                        user._id,
+                        user.name,
+                        user.email,
+                        user.date,
+                        user.time
+                      );
+                    }}
+                  >
+                    <i className="fa-regular fa-trash-can"></i>
+                  </div>
                 </div>
               </StyledClientWrapper>
             ))}

@@ -11,6 +11,13 @@ class API {
 
     return data;
   }
+
+  async deleting(clientData) {
+    const { data } = await axios.delete(
+      HOST + `/api/bookings/${clientData.clientId}`,
+      clientData
+    );
+  }
 }
 
 const api = new API();

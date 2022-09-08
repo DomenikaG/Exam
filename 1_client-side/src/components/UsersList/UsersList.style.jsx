@@ -28,7 +28,46 @@ export const StyledBookingsContainer = styled.div`
 
     display: flex;
     justify-content: center;
-    gap: 24px;
+    gap: 8px;
+  }
+
+  .tableHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+
+    border-bottom: 1px solid #067afe;
+
+    padding-right: 96px;
+    padding-bottom: 8px;
+
+    margin-bottom: 8px;
+
+    p {
+      width: 30%;
+
+      font-size: 14px;
+      line-height: 24px;
+      font-weight: 400;
+
+      color: #067afe;
+
+      &:nth-child(2) {
+        width: 40%;
+        text-align: center;
+      }
+
+      &:nth-child(3) {
+        width: 20%;
+        text-align: center;
+      }
+
+      &:nth-child(4) {
+        width: 10%;
+        text-align: right;
+      }
+    }
   }
 `;
 
@@ -72,5 +111,41 @@ export const StyledClientWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 24px;
+  gap: 16px;
+
+  .dataControlsContainer {
+    display: flex;
+    gap: 8px;
+  }
+
+  .dataControlButton {
+    height: 35px;
+    width: 35px;
+
+    background-color: #c7d7ed;
+
+    border-radius: 8px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    i {
+      color: #fff;
+    }
+  }
+
+  .edit {
+    &:hover {
+      cursor: pointer;
+      background-color: #32bf62;
+    }
+  }
+
+  .delete {
+    &:hover {
+      cursor: pointer;
+      background-color: #ff5c04;
+    }
+  }
 `;
