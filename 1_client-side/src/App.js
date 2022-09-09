@@ -1,6 +1,7 @@
 import React from "react";
 
 import Header from "./components//Header";
+import Footer from "./components/Footer";
 import RegistrationForm from "./components/RegistrationForm";
 import UsersList from "./components/UsersList";
 
@@ -13,6 +14,8 @@ function App() {
 
       <RegistrationForm />
       <UsersList />
+
+      <Footer />
     </div>
   );
 }
