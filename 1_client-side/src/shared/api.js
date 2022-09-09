@@ -12,11 +12,22 @@ class API {
     return data;
   }
 
+  async editing(clientData) {
+    const { data } = await axios.put(
+      HOST + `/api/bookings/${clientData.clientId}`,
+      clientData
+    );
+
+    return data;
+  }
+
   async deleting(clientData) {
     const { data } = await axios.delete(
       HOST + `/api/bookings/${clientData.clientId}`,
       clientData
     );
+
+    return data;
   }
 }
 
