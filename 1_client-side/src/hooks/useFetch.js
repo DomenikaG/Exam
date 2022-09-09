@@ -11,9 +11,7 @@ const useFetch = (endpoint) => {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get(
-          `http://localhost:5000/api/bookings/${endpoint}`
-        );
+        const { data } = await axios.get(endpoint);
 
         setData(data);
         setIsLoading(false);
@@ -22,7 +20,7 @@ const useFetch = (endpoint) => {
         setIsLoading(false);
       }
     })();
-  }, [endpoint]);
+  }, [endpoint, data]);
 
   return { data, isLoading, error };
 };
