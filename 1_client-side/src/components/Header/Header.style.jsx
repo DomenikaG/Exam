@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledHeader = styled.div`
+export const StyledHeader = styled.header`
   width: 100%;
   padding: 16px;
 
