@@ -10,6 +10,113 @@ export const StyledSection = styled.section`
   gap: 32px;
 `;
 
+export const StyledEditDataContainer = styled.div`
+  width: 800px;
+
+  margin: 0 auto;
+  padding: 24px;
+  border-radius: 8px;
+
+  background-color: white;
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.04);
+
+  display: flex;
+  flex-direction: column;
+
+  .editTable {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .editTableHeader {
+    p {
+      font-size: 14px;
+      line-height: 24px;
+      font-weight: 400;
+
+      color: #067afe;
+
+      margin-bottom: 8px;
+    }
+  }
+
+  .dataControlsContainer {
+    display: flex;
+    gap: 8px;
+  }
+
+  .dataControlButton {
+    height: 35px;
+    width: 35px;
+
+    background-color: #c7d7ed;
+
+    border-radius: 8px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    i {
+      color: #fff;
+    }
+  }
+
+  .approve {
+    &:hover {
+      cursor: pointer;
+      background-color: #32bf62;
+    }
+  }
+
+  .cancel {
+    &:hover {
+      cursor: pointer;
+      background-color: #ff5c04;
+    }
+  }
+
+  .dataInputs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+
+    input {
+      width: 30%;
+
+      font-size: 14px;
+      line-height: 24px;
+      font-weight: 400;
+
+      color: #222222;
+      text-align: center;
+
+      border: 1px solid #c7d7ed;
+
+      &:nth-child(2) {
+        width: 40%;
+      }
+
+      &:nth-child(3) {
+        width: 20%;
+      }
+
+      &:nth-child(4) {
+        width: 10%;
+      }
+    }
+
+    *:focus {
+      outline: none;
+    }
+  }
+`;
+
 export const StyledBookingsContainer = styled.div`
   width: 800px;
 
