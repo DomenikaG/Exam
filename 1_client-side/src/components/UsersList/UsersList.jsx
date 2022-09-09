@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { deleteClient } from "../../redux/actions/userActions";
-import axios from "axios";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { deleteClient, editClient } from "../../redux/actions/userActions";
 
 import {
   StyledSection,
@@ -11,19 +10,23 @@ import {
   StyledList,
 } from "./UsersList.style";
 import usePagination from "../../hooks/usePagination";
+import useFetch from "../../hooks/useFetch";
 import Button from "../Button/Button";
+import BOOKING_TIMES from "../../shared/constants/bookingTimes";
 
 const UsersList = () => {
+  // Variables
+  const dispatch = useDispatch();
+  let bookingTimes = BOOKING_TIMES;
+
   // States
-  const [data, setData] = useState(null);
-  const [dataForEdit, setDataForEdit] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
   // -- Pagination
   const [page, setPage] = useState(1);
   const [amount] = useState(10);
   const [pagesArray, setPagesArray] = useState(null);
-  // -- Client info edited
+  // -- Booking section open or closed
+  const [isEdit, setIsEdit] = useState(false);
+  // -- Client info for booking edit
   const [client, setClient] = useState({
     id: "",
     name: "",
@@ -31,7 +34,16 @@ const UsersList = () => {
     date: "",
     time: "",
   });
-  const [isEdit, setIsEdit] = useState(false);
+
+  // FETCH
+  // -- all bookings data
+  const { data, isLoading, error } = useFetch(
+    "http://localhost:5000/api/bookings/"
+  );
+  // -- all bookings data on the chosen day
+  const bookingsData = useFetch(
+    `http://localhost:5000/api/bookings/${client.date}`
+  );
 
   // Logic
   // -- Pagination
@@ -41,17 +53,24 @@ const UsersList = () => {
 
     setPagesArray(Array.from({ length: pagesTotal }, (_, i) => i + 1));
   }
+  // -- Filter available times for booking data
+  // ---- getting not available times from the users array (dependig on selection of the date)
+  const takenTimes = [];
+  if (bookingsData.data) {
+    bookingsData.data.map((client) => {
+      takenTimes.push(client.time);
 
-  // Redux
-  const {
-    loading,
-    client: clientData,
-    error,
-  } = useSelector((state) => state.deleting);
-
-  const dispatch = useDispatch();
+      return takenTimes.sort();
+    });
+  } else {
+  }
+  // ---- filtering available times
+  if (client.date) {
+    bookingTimes = bookingTimes.filter((el) => !takenTimes.includes(el));
+  }
 
   // Custom functions
+  // -- delete client
   const handleDelete = (id, name, email, date, time) => {
     if (name) {
       dispatch(
@@ -65,8 +84,24 @@ const UsersList = () => {
       );
     }
   };
+  // -- edit client
+  const handleEdit = () => {
+    if (client) {
+      dispatch(
+        editClient({
+          clientId: client.id,
+          name: client.name,
+          email: client.email,
+          date: client.date,
+          time: client.time,
+        })
+      );
 
-  const handleEdit = (id, name, email, date, time) => {
+      setIsEdit(false);
+    }
+  };
+  // -- Client edit data container open
+  const editOpen = (id, name, email, date, time) => {
     setIsEdit(true);
 
     setClient({
@@ -77,22 +112,8 @@ const UsersList = () => {
       time: time,
     });
   };
-
-  // Side effects
-  useEffect(() => {
-    (async () => {
-      try {
-        const { data } = await axios.get("http://localhost:5000/api/bookings/");
-
-        setData(data);
-        setDataForEdit(data);
-        setIsLoading(false);
-      } catch (error) {
-        setErrorMessage(error.message);
-        setIsLoading(false);
-      }
-    })();
-  }, [page, data, client]);
+  // -- Client edit data container closed
+  const editClose = () => setIsEdit(false);
 
   return (
     <>
@@ -107,86 +128,74 @@ const UsersList = () => {
 
             <div className="editTable">
               <div className="dataInputs">
-                <div>
+                <div className="inputContainer">
                   <input
                     type="text"
                     value={client.name}
-                    pattern="[A-Za-z]"
                     onChange={(e) =>
-                      setClient((prev) => ({ ...prev, name: e.target.value }))
+                      setClient((prev) => ({
+                        ...prev,
+                        name: e.target.value,
+                      }))
                     }
-                    required
                   />
                 </div>
 
-                <div>
+                <div className="inputContainer">
                   <input
                     type="email"
                     value={client.email}
                     onChange={(e) =>
                       setClient((prev) => ({ ...prev, email: e.target.value }))
                     }
-                    required
                   />
                 </div>
 
-                <div>
+                <div className="inputContainer">
                   <input
                     type="date"
                     value={client.date}
                     onChange={(e) =>
                       setClient((prev) => ({ ...prev, date: e.target.value }))
                     }
-                    required
                   />
                 </div>
 
-                {/* <select
-                  // className="inputField select"
-                  // id="time"
-                  value={client.time}
-                  // onChange={(e) =>
-                  //   setClient((prev) => ({ ...prev, time: e.target.value }))
-                  // }
-                >
-                  <option value="selecttime">Select time</option>
+                <div className="inputContainer">
+                  <select
+                    className="inputField select"
+                    id="time"
+                    onChange={(e) =>
+                      setClient((prev) => ({ ...prev, time: e.target.value }))
+                    }
+                  >
+                    <option value="selecttime">{client.time}</option>
 
-                  {availableTimes.map((time) => (
-                    <option value={time} key={time}>
-                      {time}
-                    </option>
-                  ))}
-                </select> */}
+                    {bookingTimes.map((time) => (
+                      <option value={time} key={time}>
+                        {time}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
               <div className="dataControlsContainer">
                 <div
                   className="dataControlButton approve"
                   onClick={(e) => {
-                    // handleEdit(
-                    //   user._id,
-                    //   user.name,
-                    //   user.email,
-                    //   user.date,
-                    //   user.time
-                    // );
+                    handleEdit();
                   }}
                 >
-                  <i class="fa-solid fa-check"></i>
+                  <i className="fa-solid fa-check"></i>
                 </div>
                 <div
                   className="dataControlButton cancel"
                   onClick={(e) => {
-                    // handleDelete(
-                    //   user._id,
-                    //   user.name,
-                    //   user.email,
-                    //   user.date,
-                    //   user.time
-                    // );
+                    editClose();
                   }}
                 >
-                  <i class="fa-solid fa-xmark"></i>
+                  <i className="fa-solid fa-xmark"></i>
                 </div>
               </div>
             </div>
@@ -194,7 +203,9 @@ const UsersList = () => {
         )}
 
         {isLoading ? (
-          <p>Loading ...</p>
+          <p className="message">Loading bookings...</p>
+        ) : error ? (
+          <p className="message">No bookings found.</p>
         ) : (
           <StyledBookingsContainer>
             <div className="tableHeader">
@@ -218,13 +229,17 @@ const UsersList = () => {
                   <div
                     className="dataControlButton edit"
                     onClick={(e) => {
-                      handleEdit(
+                      editOpen(
                         user._id,
                         user.name,
                         user.email,
                         user.date,
                         user.time
                       );
+                      setClient((prev) => ({
+                        ...prev,
+                        id: user._id,
+                      }));
                     }}
                   >
                     <i className="fa-regular fa-pen-to-square"></i>
@@ -258,7 +273,7 @@ const UsersList = () => {
                   >
                     <Button
                       type="button"
-                      style="secondary"
+                      design="secondary"
                       value={item}
                     ></Button>
                   </div>
