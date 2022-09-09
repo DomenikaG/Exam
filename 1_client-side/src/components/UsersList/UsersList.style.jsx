@@ -8,6 +8,10 @@ export const StyledSection = styled.section`
   display: flex;
   flex-direction: column;
   gap: 32px;
+
+  .message {
+    text-align: center;
+  }
 `;
 
 export const StyledEditDataContainer = styled.div`
@@ -23,15 +27,6 @@ export const StyledEditDataContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  .editTable {
-    width: 100%;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-  }
-
   .editTableHeader {
     p {
       font-size: 14px;
@@ -44,75 +39,86 @@ export const StyledEditDataContainer = styled.div`
     }
   }
 
-  .dataControlsContainer {
-    display: flex;
-    gap: 8px;
-  }
+  .editTable {
+    width: 100%;
 
-  .dataControlButton {
-    height: 35px;
-    width: 35px;
-
-    background-color: #c7d7ed;
-
-    border-radius: 8px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    i {
-      color: #fff;
-    }
-  }
-
-  .approve {
-    &:hover {
-      cursor: pointer;
-      background-color: #32bf62;
-    }
-  }
-
-  .cancel {
-    &:hover {
-      cursor: pointer;
-      background-color: #ff5c04;
-    }
-  }
-
-  .dataInputs {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 16px;
 
-    input {
-      width: 30%;
+    .dataControlsContainer {
+      display: flex;
+      gap: 8px;
 
-      font-size: 14px;
-      line-height: 24px;
-      font-weight: 400;
+      .dataControlButton {
+        height: 35px;
+        width: 35px;
 
-      color: #222222;
-      text-align: center;
+        background-color: #c7d7ed;
 
-      border: 1px solid #c7d7ed;
+        border-radius: 8px;
 
-      &:nth-child(2) {
-        width: 40%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        i {
+          color: #fff;
+        }
       }
 
-      &:nth-child(3) {
-        width: 20%;
+      .approve {
+        &:hover {
+          cursor: pointer;
+          background-color: #32bf62;
+        }
       }
 
-      &:nth-child(4) {
-        width: 10%;
+      .cancel {
+        &:hover {
+          cursor: pointer;
+          background-color: #ff5c04;
+        }
       }
     }
 
-    *:focus {
-      outline: none;
+    .dataInputs {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+
+      .inputContainer {
+        width: 30%;
+
+        input,
+        select {
+          width: 100%;
+
+          padding: 6px 4px;
+
+          border: 1px solid #c7d7ed;
+          border-radius: 8px;
+        }
+
+        &:nth-child(2) {
+          width: 40%;
+        }
+
+        &:nth-child(3) {
+          width: 20%;
+        }
+
+        &:nth-child(4) {
+          width: 10%;
+        }
+      }
+
+      *:focus {
+        outline: none;
+      }
     }
   }
 `;
